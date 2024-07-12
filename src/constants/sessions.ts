@@ -1,0 +1,3 @@
+export const SESSIONS = {
+  DEFAULT_SESSION_EXPIRE_TIME_IN_HOURS: 24,
+};
