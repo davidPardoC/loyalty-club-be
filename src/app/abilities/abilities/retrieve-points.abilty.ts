@@ -1,6 +1,6 @@
 import { Balances } from 'src/app/balances/entities/balance.entity';
 import { Repository } from 'typeorm';
-import { BaseHability } from './base.hability';
+import { BaseHability } from './base.ability';
 
 export class RetrievePointsHability extends BaseHability {
   balancesRepository: Repository<Balances> =

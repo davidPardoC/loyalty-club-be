@@ -1,8 +1,8 @@
+import { BaseHability } from 'src/app/abilities/abilities/base.ability';
+import { RetrievePointsHability } from 'src/app/abilities/abilities/retrieve-points.abilty';
+import { Abilities } from 'src/app/abilities/enums/abilities.enum';
 import { Bot } from 'src/app/bots/entities/bot.entity';
 import { Sessions } from 'src/app/conversations/entities/conversation.entity';
-import { Abilities } from 'src/app/habilities/enums/abilities.enum';
-import { BaseHability } from 'src/app/habilities/habilities/base.hability';
-import { RetrievePointsHability } from 'src/app/habilities/habilities/retrieve-points.habilty';
 import { Repository } from 'typeorm';
 import { BotStep } from '../entities/bot-step.entity';
 import { stepHandlerFactory } from '../factories/step-handler.factory';

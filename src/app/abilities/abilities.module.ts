@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import { HabilitiesService } from './habilities.service';
-import { HabilitiesController } from './habilities.controller';
+import { HabilitiesController } from './abilities.controller';
+import { HabilitiesService } from './abilities.service';
 
 @Module({
   controllers: [HabilitiesController],
