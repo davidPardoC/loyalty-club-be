@@ -5,7 +5,7 @@ import { Column, Entity, ManyToOne, OneToMany } from 'typeorm';
 
 @Entity()
 export class Bot extends BaseEntity {
-  @Column()
+  @Column({ unique: true })
   name: string;
 
   @Column()
@@ -15,7 +15,7 @@ export class Bot extends BaseEntity {
   active: boolean;
 
   @OneToMany(() => BotStep, (botStep) => botStep.bot)
-  botSteps: BotStep[];
+  bot_steps: BotStep[];
 
   @ManyToOne(() => User, (user) => user.bots)
   user: User;

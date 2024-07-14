@@ -4,10 +4,12 @@ import {
   IsArray,
   IsEnum,
   IsInt,
+  IsObject,
   IsOptional,
   IsString,
   MinLength,
   Validate,
+  ValidateIf,
   ValidateNested,
 } from 'class-validator';
 import { BotStepType } from 'src/app/bot-steps/enums/BotStepType.enum';
@@ -45,9 +47,13 @@ export class StepDto {
   keywords: string[];
 
   @IsString()
-  defaultResponse: string;
+  default_response: string;
+
+  @IsObject()
+  @ValidateIf((o) => o.type === BotStepType.MENU)
+  params: Record<string, any>;
 
   @IsInt()
   @IsOptional()
-  nextStep: number;
+  next_step: number;
 }

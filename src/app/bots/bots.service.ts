@@ -47,7 +47,7 @@ export class BotsService {
   findAllActive() {
     return this.botRepository.find({
       where: { active: true },
-      relations: ['botSteps'],
+      relations: ['bot_steps'],
     });
   }
 }

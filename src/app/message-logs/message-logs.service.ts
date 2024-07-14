@@ -24,10 +24,17 @@ export class MessageLogsService {
   }
 
   update(id: number, updateMessageLogDto: UpdateMessageLogDto) {
-    return `This action updates a #${id} messageLog`;
+    return `This action updates a #${id} messageLog ${updateMessageLogDto}`;
   }
 
   remove(id: number) {
     return `This action removes a #${id} messageLog`;
+  }
+
+  getLastMessage(from: string, botId: number, sessionId: number) {
+    return this.messageLogRepository.findOne({
+      where: { sender: from, session_id: sessionId, bot_id: botId },
+      order: { created_at: 'DESC' },
+    });
   }
 }

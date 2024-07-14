@@ -4,6 +4,10 @@ import {
 } from 'class-validator';
 import { BotStepType } from 'src/app/bot-steps/enums/BotStepType.enum';
 import { StepDto } from '../dto/create-bot.dto';
+import {
+  abilitySchema,
+  menuOptionsSchema,
+} from '../schemas/menu-options-schema';
 
 interface TypeValidator {
   isValid: boolean;
@@ -16,18 +20,31 @@ export class StepTypeValidator implements ValidatorConstraintInterface {
   message: string;
 
   validate(steps: StepDto[]) {
+    const { isValid, message } = this.validateAll(steps);
+    this.message = message;
+    return isValid;
+  }
+
+  validateAll(steps: StepDto[]): TypeValidator {
+    let response;
     for (const step of steps) {
       this.currentStep = step;
       switch (step.type) {
         case BotStepType.TRIGGER:
-          const { isValid, message } = this.validateTriggerType(step);
-          this.message = message;
-          return isValid;
-        default:
-          return true;
+          response = this.validateTriggerType(step);
+          break;
+        case BotStepType.MENU:
+          response = this.validateMenuType(step);
+          break;
+        case BotStepType.ABILITY:
+          response = this.validateAbilityType(step);
+          break;
+      }
+      if (!response.isValid) {
+        break;
       }
     }
-    return true;
+    return response;
   }
 
   defaultMessage(): string {
@@ -38,6 +55,24 @@ export class StepTypeValidator implements ValidatorConstraintInterface {
     return {
       isValid: step.keywords.length > 0,
       message: 'Matchers are required',
+    };
+  }
+
+  validateMenuType(step: StepDto): TypeValidator {
+    const { success, error } = menuOptionsSchema.safeParse(
+      step.params?.options,
+    );
+    return {
+      isValid: success,
+      message: error ? error.toString() : '',
+    };
+  }
+
+  validateAbilityType(step: StepDto): TypeValidator {
+    const { success, error } = abilitySchema.safeParse(step.params);
+    return {
+      isValid: success,
+      message: error ? error.toString() : '',
     };
   }
 }
