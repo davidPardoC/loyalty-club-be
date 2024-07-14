@@ -1,4 +1,4 @@
-import { Abilities } from 'src/app/habilities/enums/abilities.enum';
+import { Abilities } from 'src/app/abilities/enums/abilities.enum';
 import { z } from 'zod';
 
 export const menuOptionsSchema = z

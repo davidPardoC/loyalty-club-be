@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import { HabilitiesModule } from './app/abilities/abilities.module';
 import { AuthModule } from './app/auth/auth.module';
 import { BalancesModule } from './app/balances/balances.module';
 import { Balances } from './app/balances/entities/balance.entity';
@@ -10,19 +11,18 @@ import { BotStepsModule } from './app/bot-steps/bot-steps.module';
 import { BotStep } from './app/bot-steps/entities/bot-step.entity';
 import { BotsModule } from './app/bots/bots.module';
 import { Bot } from './app/bots/entities/bot.entity';
+import { BusinessModule } from './app/business/business.module';
 import { ConversationsListenerService } from './app/conversations/conversations-listener.service';
 import { ConversationsModule } from './app/conversations/conversations.module';
 import { Sessions } from './app/conversations/entities/conversation.entity';
 import { TelegramService } from './app/conversations/services/telegram.service';
 import { CustomersModule } from './app/customers/customers.module';
 import { Customer } from './app/customers/entities/customer.entity';
-import { HabilitiesModule } from './app/habilities/habilities.module';
 import { MessageLog } from './app/message-logs/entities/message-log.entity';
 import { MessageLogsModule } from './app/message-logs/message-logs.module';
 import { ProvidersModule } from './app/providers/providers.module';
 import { User } from './app/users/entities/user.entity';
 import { UsersModule } from './app/users/users.module';
-import { BusinessModule } from './app/business/business.module';
 import configuration from './config/configuration';
 @Module({
   imports: [
