@@ -10,8 +10,17 @@ export class MessageLog extends BaseEntity {
   sender: string;
 
   @Column()
-  current_step: number;
+  executed_step: number;
+
+  @Column({ nullable: true })
+  next_step: number;
 
   @Column()
-  next_step: number;
+  session_id: number;
+
+  @Column()
+  bot_id: number;
+
+  @Column({ nullable: true, type: 'jsonb' })
+  input: Record<string, any>;
 }

@@ -20,6 +20,9 @@ export class BotStep extends BaseEntity {
   @Column({ nullable: true })
   next_step: number;
 
-  @ManyToOne(() => Bot, (bot) => bot.botSteps)
+  @Column({ nullable: true, type: 'jsonb' })
+  params: Record<string, any>;
+
+  @ManyToOne(() => Bot, (bot) => bot.bot_steps)
   bot: Bot;
 }

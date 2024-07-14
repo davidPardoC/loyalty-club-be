@@ -1,6 +1,6 @@
 export enum BotStepType {
   TRIGGER = 'TRIGGER',
-  MESSAGE = 'MESSAGE',
-  QUESTION = 'QUESTION',
+  MENU = 'MENU',
   END = 'END',
+  ABILITY = 'ABILITY',
 }

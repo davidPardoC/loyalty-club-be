@@ -10,7 +10,7 @@ export class EndRequiredValidator implements ValidatorConstraintInterface {
   message: string;
   validate(steps: StepDto[]) {
     const endSteps = steps.filter((step) => step.type === BotStepType.END);
-    const notNullEndSteps = endSteps.filter((step) => step.nextStep !== null);
+    const notNullEndSteps = endSteps.filter((step) => step.next_step !== null);
     if (endSteps.length < 1) {
       this.message = 'At least one End step is required in the steps array.';
       return false;
