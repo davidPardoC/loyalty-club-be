@@ -41,14 +41,28 @@ export class BotExecutionService {
 
     await Promise.all(
       triggers.map(async (trigger) => {
+        let message = body;
         let activeSession = await this.hasActiveSession(from, trigger.bot.id);
-        const matchKeyword = containsKeyword(body, trigger.keywords);
+        const paramDivider = trigger.params?.param_divider;
+        const params = {};
+
+        if (paramDivider) {
+          const param = body.split(paramDivider)[1];
+          message = body.split(paramDivider)[0];
+          if (param) {
+            params['param'] = param;
+          }
+        }
+
+        const matchKeyword = containsKeyword(message, trigger.keywords);
+
         if (!activeSession && matchKeyword) {
           activeSession = await this.handleTrigger(
             from,
-            body,
+            message,
             trigger,
             provider,
+            params,
           );
         } else if (activeSession) {
           const lastMessage = await this.getLastMessage(
@@ -74,6 +88,7 @@ export class BotExecutionService {
     message: string,
     trigger: BotStep & { bot: Bot },
     provider: ProvidersEnum,
+    inputParams?: Record<string, string>,
   ) {
     const session = await this.sessionsRepository.save({
       customer_phone: from,
@@ -91,13 +106,18 @@ export class BotExecutionService {
     });
     const nextStep = await this.botStepRepository.findOneBy({
       step: trigger.next_step,
+      bot: { id: trigger.bot.id },
     });
     const handler = stepHandlerFactory.getHandler(
       nextStep.type,
       provider,
       this.dataSource,
     );
-    await handler.executeStep(nextStep, { session, bot: trigger.bot }, message);
+    await handler.executeStep(
+      nextStep,
+      { session, bot: trigger.bot, inputParams },
+      message,
+    );
     return session;
   }
 
@@ -125,9 +145,11 @@ export class BotExecutionService {
     from: string,
     provider: ProvidersEnum,
     session: Sessions,
+    inputParams?: Record<string, any>,
   ) {
     const currentStep = await this.botStepRepository.findOneBy({
       step: lastMessage.next_step,
+      bot: { id: bot.id },
     });
 
     const handler = stepHandlerFactory.getHandler(
@@ -141,6 +163,7 @@ export class BotExecutionService {
       {
         session,
         bot,
+        inputParams,
       },
       body,
     );

@@ -1,6 +1,7 @@
 export enum BotStepType {
   TRIGGER = 'TRIGGER',
   MENU = 'MENU',
-  END = 'END',
+  SOFT_MENU = 'SOFT_MENU',
   ABILITY = 'ABILITY',
+  END = 'END',
 }

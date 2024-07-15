@@ -1,4 +1,5 @@
-import { BaseHability } from 'src/app/abilities/abilities/base.ability';
+import { BaseAbility } from 'src/app/abilities/abilities/base.ability';
+import { RegisterCustomerAbility } from 'src/app/abilities/abilities/register-customer.ability';
 import { RetrievePointsHability } from 'src/app/abilities/abilities/retrieve-points.abilty';
 import { Abilities } from 'src/app/abilities/enums/abilities.enum';
 import { Bot } from 'src/app/bots/entities/bot.entity';
@@ -10,8 +11,9 @@ import { StepExecutionContext } from '../interfaces/step-execution-context.inter
 import { BaseStepHandler } from './base-step.handler';
 
 export class AbilityStepHandler extends BaseStepHandler {
-  abilities: Record<string, typeof BaseHability> = {
+  abilities: Record<string, typeof BaseAbility> = {
     [Abilities.RETRIEVE_POINTS]: RetrievePointsHability,
+    [Abilities.REGISTER_CUSTOMER]: RegisterCustomerAbility,
   };
 
   botStepRepository: Repository<BotStep> =
@@ -20,13 +22,14 @@ export class AbilityStepHandler extends BaseStepHandler {
   async executeStep(
     step: BotStep,
     stepExecutionContext: StepExecutionContext,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _message: string,
+    message: string,
   ): Promise<void> {
     const { bot, session } = stepExecutionContext;
     const hability = new this.abilities[step.params.ability](this.dataSource);
     const response = await hability.execute(
       stepExecutionContext.session.customer_phone,
+      message,
+      stepExecutionContext,
     );
     await this.executeNextStep(bot, step, session, response.message);
     return;
