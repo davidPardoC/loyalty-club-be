@@ -1,24 +1,34 @@
 import { Balances } from 'src/app/balances/entities/balance.entity';
 import { Repository } from 'typeorm';
-import { BaseHability } from './base.ability';
+import { BaseAbility } from './base.ability';
 
-export class RetrievePointsHability extends BaseHability {
+export class RetrievePointsHability extends BaseAbility {
   balancesRepository: Repository<Balances> =
     this.dataSource.getRepository(Balances);
 
   async execute(from: string) {
-    const balance = await this.balancesRepository.findOneBy({
-      customer_phone: from,
+    const balance = await this.balancesRepository.find({
+      where: {
+        customer_phone: from,
+      },
+      relations: ['bussiness'],
     });
     return {
       message: this.buildResponse(balance),
     };
   }
 
-  buildResponse(balance: Balances) {
+  buildResponse(balance: Balances[]) {
     if (!balance) {
       return 'No tienes puntos acumulados.';
     }
-    return `Tienes un total de ${balance.balance} puntos.`;
+    let message = `\*Tienes los siguientes puntos acumulados:* \n\n`;
+
+    balance.forEach((b, idx) => {
+      message += ` \\ \*${idx + 1}\\.* ${b.balance} puntos en ${b.bussiness.name} \n`;
+    });
+
+    message += `\n ¡Sigue acumulando más puntos\\! \n ¿Quieres canjearlos? \n responde con "Canjear" \n`;
+    return message;
   }
 }

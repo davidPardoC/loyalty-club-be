@@ -1,5 +1,6 @@
+import { Business } from 'src/app/business/entities/business.entity';
 import { BaseEntity } from 'src/app/common/entities/base-entity';
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Balances extends BaseEntity {
@@ -9,6 +10,6 @@ export class Balances extends BaseEntity {
   @Column()
   balance: number;
 
-  @Column()
-  business_id: number;
+  @ManyToOne(() => Business, (business) => business.balances)
+  bussiness: Business;
 }

@@ -11,7 +11,10 @@ import { BotStepsModule } from './app/bot-steps/bot-steps.module';
 import { BotStep } from './app/bot-steps/entities/bot-step.entity';
 import { BotsModule } from './app/bots/bots.module';
 import { Bot } from './app/bots/entities/bot.entity';
+import { BusinessConfigurationModule } from './app/business-configuration/business-configuration.module';
+import { BusinessConfiguration } from './app/business-configuration/entities/business-configuration.entity';
 import { BusinessModule } from './app/business/business.module';
+import { Business } from './app/business/entities/business.entity';
 import { ConversationsListenerService } from './app/conversations/conversations-listener.service';
 import { ConversationsModule } from './app/conversations/conversations.module';
 import { Sessions } from './app/conversations/entities/conversation.entity';
@@ -47,6 +50,8 @@ import configuration from './config/configuration';
             MessageLog,
             Sessions,
             Balances,
+            Business,
+            BusinessConfiguration,
           ],
           synchronize: true,
         };
@@ -62,6 +67,7 @@ import configuration from './config/configuration';
     HabilitiesModule,
     BalancesModule,
     BusinessModule,
+    BusinessConfigurationModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConversationsListenerService, TelegramService],

@@ -4,7 +4,7 @@ import { MessagingProvider } from '../interfaces/messaging-provider.interface';
 export class TelegramProvider implements MessagingProvider {
   bot = new Bot(process.env.TELEGRAM_BOT_TOKEN!);
   async sendMessage(message: string, to: string): Promise<void> {
-    await this.bot.api.sendMessage(to, message);
+    await this.bot.api.sendMessage(to, message, { parse_mode: 'MarkdownV2' });
   }
 
   async sendMenu(options: string[], to: string): Promise<void> {
@@ -14,6 +14,7 @@ export class TelegramProvider implements MessagingProvider {
         keyboard: options.map((option) => [{ text: option }]),
         one_time_keyboard: true,
       },
+      parse_mode: 'MarkdownV2',
     });
   }
 }

@@ -52,6 +52,13 @@ export class StepTypeValidator implements ValidatorConstraintInterface {
   }
 
   validateTriggerType(step: StepDto): TypeValidator {
+    if (step.params) {
+      return {
+        isValid: !!step.params.param_divider,
+        message: 'Param divider is required if params are present',
+      };
+    }
+
     return {
       isValid: step.keywords.length > 0,
       message: 'Matchers are required',
