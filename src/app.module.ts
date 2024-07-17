@@ -26,7 +26,10 @@ import { MessageLogsModule } from './app/message-logs/message-logs.module';
 import { ProvidersModule } from './app/providers/providers.module';
 import { User } from './app/users/entities/user.entity';
 import { UsersModule } from './app/users/users.module';
+import { Reward } from './app/rewards/entities/reward.entity';
+import { RewardsModule } from './app/rewards/rewards.module';
 import configuration from './config/configuration';
+
 @Module({
   imports: [
     AuthModule,
@@ -52,6 +55,7 @@ import configuration from './config/configuration';
             Balances,
             Business,
             BusinessConfiguration,
+            Reward,
           ],
           synchronize: true,
         };
@@ -68,6 +72,7 @@ import configuration from './config/configuration';
     BalancesModule,
     BusinessModule,
     BusinessConfigurationModule,
+    RewardsModule,
   ],
   controllers: [AppController],
   providers: [AppService, ConversationsListenerService, TelegramService],
